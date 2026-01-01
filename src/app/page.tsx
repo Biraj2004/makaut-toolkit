@@ -36,39 +36,43 @@ export default function Home() {
 
       {/* Features Grid */}
       <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-         <Card className="bg-zinc-900/50 border-zinc-800 hover:border-emerald-500/30 transition-all hover:bg-zinc-900 group">
-            <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <Calculator className="w-6 h-6 text-emerald-500" />
-                </div>
-                <CardTitle>Grade Calculators</CardTitle>
-                <CardDescription>Comprehensive tools for CGPA, SGPA, and YGPA.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> SGPA to Percentage</li>
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> YGPA to Percentage</li>
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> DGPA & CGPA Calculations</li>
-                </ul>
-            </CardContent>
-         </Card>
+         <Link href="/calculators" className="block group cursor-pointer">
+           <Card className="bg-zinc-900/50 border-zinc-800 hover:border-emerald-500/30 transition-all hover:bg-zinc-900 h-full">
+              <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <Calculator className="w-6 h-6 text-emerald-500" />
+                  </div>
+                  <CardTitle>Grade Calculators</CardTitle>
+                  <CardDescription>Comprehensive tools for CGPA, SGPA, and YGPA.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> SGPA to Percentage</li>
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> YGPA to Percentage</li>
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> DGPA & CGPA Calculations</li>
+                  </ul>
+              </CardContent>
+           </Card>
+         </Link>
 
-         <Card className="bg-zinc-900/50 border-zinc-800 hover:border-blue-500/30 transition-all hover:bg-zinc-900 group">
-            <CardHeader>
-                 <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <FileText className="w-6 h-6 text-blue-500" />
-                </div>
-                <CardTitle>University Updates</CardTitle>
-                <CardDescription>Stay informed with the latest announcements.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Exam Schedules</li>
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Result Notifications</li>
-                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Sports & Events</li>
-                </ul>
-            </CardContent>
-         </Card>
+         <Link href="/updates" className="block group cursor-pointer">
+           <Card className="bg-zinc-900/50 border-zinc-800 hover:border-blue-500/30 transition-all hover:bg-zinc-900 h-full">
+              <CardHeader>
+                   <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <FileText className="w-6 h-6 text-blue-500" />
+                  </div>
+                  <CardTitle>University Updates</CardTitle>
+                  <CardDescription>Stay informed with the latest announcements.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Exam Schedules</li>
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Result Notifications</li>
+                      <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Sports & Events</li>
+                  </ul>
+              </CardContent>
+           </Card>
+         </Link>
 
          <Card className="bg-zinc-900/50 border-zinc-800 hover:border-purple-500/30 transition-all hover:bg-zinc-900 group">
             <CardHeader>
