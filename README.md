@@ -10,7 +10,7 @@ The **MAKAUT Toolkit** is an all-in-one web application designed for students of
 
 ## 🌐 Live Demo
 
-Check out the live application here: [**Live Preview**](https://makaut-toolkit.vercel.app
+Check out the live application here: [**Live Preview**](https://makaut-toolkit.vercel.app)
 
 ## 🚀 Features
 
