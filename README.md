@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MAKAUT Toolkit
 
-## Getting Started
+![Version](https://img.shields.io/badge/version-1.0.0-emerald.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16.1-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4.0-cyan)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-First, run the development server:
+The **MAKAUT Toolkit** is an all-in-one web application designed for students of Maulana Abul Kalam Azad University of Technology (MAKAUT). It simplifies academic management by providing robust grade calculators, real-time university updates, and scholarship eligibility tools.
+
+## 🌐 Live Demo
+
+Check out the live application here: [**Live Preview**](https://makaut-toolkit.vercel.app)
+
+## 🚀 Features
+
+### 1. Advanced Grade Calculators
+
+Comprehensive tools handling complex university formulas:
+
+- **SGPA to Percentage**: Convert semester grades to percentage instantly.
+- **YGPA to Percentage**: Calculate annual percentage from Odd & Even sem SGPAs.
+  - *Bonus*: Displays **Yearly Average YGPA** alongside percentage.
+- **Yearly Marks Calculator**: Essential for **Scholarship Renewals** (SVMCM, OASIS, Aikashree).
+  - Calculates **Total Marks** & **Obtained Marks** based on subject count.
+- **DGPA Calculator**: Supports all degree types:
+  - 4-Year B.Tech (Weighted calculation).
+  - Lateral Entry (Weighted from 2nd year).
+  - 3-Year & 2-Year Degrees.
+- **CGPA Calculator**: Flexible semester inputs (from 2 to 10 semesters) with credit-weighted logic.
+
+### 2. Live University Updates
+
+- **Automated Tracking**: Fetches official notices from the MAKAUT API.
+- **Smart Caching (ISR)**: Updates typically refresh every **1 hour** to balance speed and server load.
+- **"NEW" Badge Logic**: Automatically highlights the top 3 most recent notices.
+- **View Controls**: Expand/Collapse list with smooth scrolling.
+
+### 3. Modern UI/UX
+
+- **Dark Mode First**: Sleek, eye-friendly interface.
+- **Responsive Design**: Optimized for Mobile, Tablet, and Desktop.
+- **Accessibility**: Screen-reader friendly (ARIA labels, Sheet Descriptions).
+- **Performance**: Optimized images (`next/image` with proper sizing) and font loading.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Components**: [Radix UI](https://www.radix-ui.com/) (Primitives for accessible components)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Font**: Geist Sans & Geist Mono
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+├── app/
+│   ├── calculators/    # Calculator Tab Logic
+│   ├── updates/        # Updates Page & ISR Fetching
+│   ├── layout.tsx      # Root Layout & Providers
+│   └── page.tsx        # Homepage
+├── components/
+│   ├── layout/         # Sidebar, Navbar, Mobile Menu
+│   ├── ui/             # Reusable UI Components (Cards, Buttons, Inputs)
+│   └── UpdatesList.tsx # Updates Display Component
+├── lib/
+│   ├── calculators.ts  # Core Calculation Logic (Pure Functions)
+│   └── utils.ts        # Tailwind merge utilities
+└── config/             # Navigation config
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚡ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/your-username/makaut-toolkit.git
+   cd makaut-toolkit
+   ```
 
-## Learn More
+2. **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+4. **Open locally:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Navigate to [http://localhost:3000](http://localhost:3000).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/NewFeature`).
+3. Commit your changes.
+4. Push to the branch.
+5. Open a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.

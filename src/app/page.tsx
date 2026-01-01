@@ -1,65 +1,99 @@
-import Image from "next/image";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { ArrowRight, Calculator, FileText, GraduationCap } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-12 max-w-6xl mx-auto pb-10">
+      
+      {/* Hero Section */}
+      <section className="text-center space-y-6 py-12 md:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <Badge variant="outline" className="px-3 py-1 text-sm border-emerald-500/50 text-emerald-400 bg-emerald-500/10 mb-4">
+          v1.0 Now Live
+        </Badge>
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent pb-2">
+          Your Companion for <br className="hidden md:block" />
+          Academic Excellence
+        </h1>
+        <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+           The all-in-one toolkit for MAKAUT students. Calculate <span className="underline decoration-wavy decoration-emerald-500/50 underline-offset-4">grades</span>, track university&apos;s latest <span className="underline decoration-wavy decoration-emerald-500/50 underline-offset-4">announcements</span>, and manage your academic journey seamlessly.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <Button asChild size="lg" className="h-12 px-8 text-base bg-emerald-600 hover:bg-emerald-700 text-white rounded-full">
+                <Link href="/calculators">
+                  Start Calculating <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base border-zinc-700 hover:bg-zinc-900 rounded-full">
+                <Link href="/updates">
+                  View Updates <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+            </Button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      {/* Features Grid */}
+      <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+         <Card className="bg-zinc-900/50 border-zinc-800 hover:border-emerald-500/30 transition-all hover:bg-zinc-900 group">
+            <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Calculator className="w-6 h-6 text-emerald-500" />
+                </div>
+                <CardTitle>Grade Calculators</CardTitle>
+                <CardDescription>Comprehensive tools for CGPA, SGPA, and YGPA.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> SGPA to Percentage</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> YGPA to Percentage</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> DGPA & CGPA Calculations</li>
+                </ul>
+            </CardContent>
+         </Card>
+
+         <Card className="bg-zinc-900/50 border-zinc-800 hover:border-blue-500/30 transition-all hover:bg-zinc-900 group">
+            <CardHeader>
+                 <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <FileText className="w-6 h-6 text-blue-500" />
+                </div>
+                <CardTitle>University Updates</CardTitle>
+                <CardDescription>Stay informed with the latest announcements.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Exam Schedules</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Result Notifications</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-blue-500" /> Sports & Events</li>
+                </ul>
+            </CardContent>
+         </Card>
+
+         <Card className="bg-zinc-900/50 border-zinc-800 hover:border-purple-500/30 transition-all hover:bg-zinc-900 group">
+            <CardHeader>
+                 <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <GraduationCap className="w-6 h-6 text-purple-500" />
+                </div>
+                <CardTitle>Student Resources</CardTitle>
+                <CardDescription>Essentials for your 4-year journey.</CardDescription>
+            </CardHeader>
+             <CardContent>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-purple-500" /> Syllabus Access (Soon)</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-purple-500" /> PYQ Repository (Soon)</li>
+                    <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-purple-500" /> Student Community (Later)</li>
+                </ul>
+            </CardContent>
+         </Card>
+      </section>
+      
+      {/* Footer Note */}
+      <div className="text-center pt-10 border-t border-zinc-900">
+        <p className="text-zinc-600 text-sm">
+            Designed & Developed by <Link href="/about" className="text-zinc-500 hover:text-zinc-300 underline underline-offset-4">Biraj Sarkar</Link>
+        </p>
+      </div>
     </div>
   );
 }
