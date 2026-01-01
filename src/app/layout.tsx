@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 
 import { AppLayout } from "@/components/layout/AppLayout";
 
+import { Analytics } from "@vercel/analytics/react";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-950 text-foreground`}
       >
         <AppLayout>{children}</AppLayout>
+        <Analytics />
       </body>
     </html>
   );
