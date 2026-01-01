@@ -32,7 +32,7 @@ Comprehensive tools handling complex university formulas:
 ### 2. Live University Updates
 
 - **Automated Tracking**: Fetches official notices from the MAKAUT API.
-- **Smart Caching (ISR)**: Updates typically refresh every **1 hour** to balance speed and server load.
+- **Smart Caching (ISR)**: Updates typically refresh every **24 hours** to balance speed and server load.
 - **"NEW" Badge Logic**: Automatically highlights the top 3 most recent notices.
 - **View Controls**: Expand/Collapse list with smooth scrolling.
 
@@ -96,7 +96,7 @@ src/
 
 4. **Open locally:**
 
-   Navigate to [http://localhost:3000](http://localhost:3000).
+   Navigate to [http://localhost:3001](http://localhost:3001).
 
 ## 🤝 Contributing
 
