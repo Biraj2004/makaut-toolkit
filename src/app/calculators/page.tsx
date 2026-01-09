@@ -2,32 +2,13 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  calculatePercentageFromYgpa,
-  calculateDgpa,
-  DegreeType,
-  calculatePercentageFromSgpa,
-  calculateCgpa,
-} from "@/lib/calculators";
+import { calculatePercentageFromYgpa, calculateDgpa, DegreeType, calculatePercentageFromSgpa, calculateCgpa } from "@/lib/calculators";
 import { CheckCircle2, RotateCcw, AlertTriangle } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type CgpaProgramType = "2yr" | "3yr" | "4yr" | "5yr";
 
