@@ -40,7 +40,7 @@ export default async function UpdatesPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tight">University Updates</h1>
-          <p className="text-zinc-400">Latest announcements and notices from MAKAUT.</p>
+          <p className="text-zinc-400">Latest announcements and notices from <span className="font-bold text-emerald-400">MAKAUT</span>.</p>
         </div>
         <Button asChild variant="outline" className="border-zinc-700 hover:bg-zinc-800">
           <Link href="https://makautexam.net/" target="_blank">
