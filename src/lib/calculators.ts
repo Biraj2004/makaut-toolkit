@@ -6,10 +6,28 @@ export function calculatePercentageFromSgpa(sgpa: number): number {
   return (sgpa - 0.75) * 10;
 }
 
-export function calculatePercentageFromYgpa(oddSgpa: number, evenSgpa: number): number {
+export function calculatePercentageFromYgpa(
+  oddSgpa: number,
+  evenSgpa: number
+): number {
   // Formula: [{(SGPA of Odd Sem + SGPA of Even SEM)/2} - 0.75] * 10
   const averageSgpa = (oddSgpa + evenSgpa) / 2;
   return (averageSgpa - 0.75) * 10;
+}
+
+export function calculateWeightedYgpa(
+  oddSgpa: number,
+  oddCredits: number,
+  evenSgpa: number,
+  evenCredits: number
+): number {
+  // Formula: (OddSGPA * OddCredits + EvenSGPA * EvenCredits) / (OddCredits + EvenCredits)
+  // Percentage = (WeightedYGPA - 0.75) * 10
+  if (oddCredits + evenCredits === 0) return 0;
+  const weightedSgpa =
+    (oddSgpa * oddCredits + evenSgpa * evenCredits) /
+    (oddCredits + evenCredits);
+  return (weightedSgpa - 0.75) * 10;
 }
 
 export type DegreeType = "4yr" | "lateral" | "3yr" | "2yr";
@@ -29,7 +47,7 @@ export function calculateDgpa(ygpas: number[], type: DegreeType): number {
       // Requires YGPA 1, 2, 3, 4
       if (ygpas.length < 4) return 0;
       return (ygpas[0] + ygpas[1] + 1.5 * ygpas[2] + 1.5 * ygpas[3]) / 5;
-    
+
     case "lateral":
       // Requires YGPA 2, 3, 4 (stored as index 0, 1, 2 in component for simplicity, but strictly it's 2nd, 3rd, 4th yr)
       // BUT for simplicity in generic function, let's assume the caller passes exactly the YGPAs needed in order.
@@ -51,21 +69,21 @@ export function calculateDgpa(ygpas: number[], type: DegreeType): number {
 }
 
 export interface SemesterData {
-    sgpa: number;
-    credits: number;
+  sgpa: number;
+  credits: number;
 }
 
 export function calculateCgpa(semesters: SemesterData[]): number {
-    let totalCreditIndex = 0;
-    let totalCredits = 0;
+  let totalCreditIndex = 0;
+  let totalCredits = 0;
 
-    for (const sem of semesters) {
-        if (sem.sgpa > 0 && sem.credits > 0) {
-            totalCreditIndex += sem.sgpa * sem.credits;
-            totalCredits += sem.credits;
-        }
+  for (const sem of semesters) {
+    if (sem.sgpa > 0 && sem.credits > 0) {
+      totalCreditIndex += sem.sgpa * sem.credits;
+      totalCredits += sem.credits;
     }
+  }
 
-    if (totalCredits === 0) return 0;
-    return totalCreditIndex / totalCredits;
+  if (totalCredits === 0) return 0;
+  return totalCreditIndex / totalCredits;
 }

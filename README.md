@@ -23,6 +23,7 @@ Comprehensive tools handling complex university formulas:
   - *Bonus*: Displays **Yearly Average YGPA** alongside percentage.
 - **Yearly Marks Calculator**: Essential for **Scholarship Renewals** (SVMCM, OASIS, Aikashree).
   - Calculates **Total Marks** & **Obtained Marks** based on subject count.
+  - **Important Note**: Includes a warning that Yearly Marks Calculator's percentage results are approximate (%) conversions. Rest all calculations are accurate.
 - **DGPA Calculator**: Supports all degree types:
   - 4-Year B.Tech (Weighted calculation).
   - Lateral Entry (Weighted from 2nd year).

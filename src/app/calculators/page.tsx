@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { calculatePercentageFromYgpa, calculateDgpa, DegreeType, calculatePercentageFromSgpa, calculateCgpa } from "@/lib/calculators";
+import { calculatePercentageFromYgpa, calculateDgpa, DegreeType, calculatePercentageFromSgpa, calculateCgpa, calculateWeightedYgpa } from "@/lib/calculators";
 import { CheckCircle2, RotateCcw, AlertTriangle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -20,6 +20,11 @@ export default function CalculatorsPage() {
   // YGPA State
   const [oddSgpa, setOddSgpa] = useState("");
   const [evenSgpa, setEvenSgpa] = useState("");
+  const [ygpaCalcMethod, setYgpaCalcMethod] = useState<"standard" | "weighted">(
+    "standard"
+  );
+  const [oddCredits, setOddCredits] = useState("");
+  const [evenCredits, setEvenCredits] = useState("");
   const [ygpaResult, setYgpaResult] = useState<number | null>(null);
   const [avgYgpa, setAvgYgpa] = useState<number | null>(null);
 
@@ -80,15 +85,40 @@ export default function CalculatorsPage() {
       setError("Please enter both Odd and Even Semester SGPAs.");
       return;
     }
+
+    if (ygpaCalcMethod === "weighted" && (!oddCredits || !evenCredits)) {
+      setError("Please enter Credits for both semesters.");
+      return;
+    }
+
     const o = parseFloat(oddSgpa);
     const e = parseFloat(evenSgpa);
-    if (!isNaN(o) && !isNaN(e)) {
-      const avg = (o + e) / 2;
-      setAvgYgpa(avg);
-      setYgpaResult(calculatePercentageFromYgpa(o, e));
-      setError(null);
-    } else {
+    
+    // Check validation of SGPAs
+    if (isNaN(o) || isNaN(e)) {
       setError("Invalid SGPA values.");
+      return;
+    }
+
+    if (ygpaCalcMethod === "weighted") {
+       const oCred = parseFloat(oddCredits);
+       const eCred = parseFloat(evenCredits);
+
+       if (isNaN(oCred) || isNaN(eCred)) {
+         setError("Invalid Credit values.");
+         return;
+       }
+
+       const weightedAvg = (o * oCred + e * eCred) / (oCred + eCred);
+       setAvgYgpa(weightedAvg);
+       setYgpaResult(calculateWeightedYgpa(o, oCred, e, eCred));
+       setError(null);
+    } else {
+       // Standard
+       const avg = (o + e) / 2;
+       setAvgYgpa(avg);
+       setYgpaResult(calculatePercentageFromYgpa(o, e));
+       setError(null);
     }
   };
 
@@ -269,6 +299,9 @@ export default function CalculatorsPage() {
     setSgpaResult(null);
     setOddSgpa("");
     setEvenSgpa("");
+    setOddCredits("");
+    setEvenCredits("");
+    setYgpaCalcMethod("weighted");
     setYgpaResult(null);
     setAvgYgpa(null);
     setOddSubjects("");
@@ -464,12 +497,14 @@ export default function CalculatorsPage() {
 
               {/* Formula Hint */}
               <div className="rounded-lg bg-zinc-950/50 border border-zinc-800 p-4">
-                <span className="font-semibold text-zinc-400 block mb-1 text-sm">
+                <span className="font-semibold text-zinc-400 block mb-3 text-sm">
                   Formula used:
                 </span>
-                <code className="text-zinc-500 text-sm">
-                  Percentage = (SGPA - 0.75) × 10
-                </code>
+                <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                  <span className="font-serif italic">Percentage</span>
+                  <span>=</span>
+                  <span>(SGPA - 0.75) &times; 10</span>
+                </div>
               </div>
 
               {renderError()}
@@ -644,6 +679,24 @@ export default function CalculatorsPage() {
                 </div>
               </div>
 
+              <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 flex gap-3 items-start text-sm text-amber-500/90 mt-6">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <div className="space-y-2">
+                  <span className="font-bold block">
+                    Important Note:
+                  </span>
+                  <p>
+                    This <span className="font-bold">Overall Percentage (%)</span> is an approximate conversion calculated using SGPA and number of subjects.
+                  </p>
+                  <p className="pt-1">
+                    This percentage will not exactly match credit-based university (%) calculations.
+                  </p>
+                  <p className="pt-1">
+                    For officially accurate results, use the Credit-Based SGPA & YGPA Percentage Calculators available in this <span className="font-bold">Toolkit</span>.
+                  </p>
+                </div>
+              </div>
+
               {renderError()}
 
               {marksResult !== null && (
@@ -709,55 +762,177 @@ export default function CalculatorsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="oddSgpa">Odd Semester SGPA</Label>
-                  <Input
-                    id="oddSgpa"
-                    placeholder="7.5"
-                    className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500"
-                    type="number"
-                    step="0.01"
-                    value={oddSgpa}
-                    onChange={(e) => {
-                      if (isValidInput(e.target.value, 10)) {
-                        setOddSgpa(e.target.value);
-                        if (error) setError(null);
-                      }
-                    }}
-                  />
+              <div className="space-y-4">
+
+               <div className="space-y-3">
+                  <Label className="text-zinc-400 text-sm">Calculation Method</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => {
+                        setYgpaCalcMethod("weighted");
+                        setYgpaResult(null);
+                        setAvgYgpa(null);
+                        setError(null);
+                      }}
+                       className={`
+                        relative flex flex-col items-center justify-center p-3 rounded-lg border transition-all duration-200 cursor-pointer
+                        ${
+                          ygpaCalcMethod === "weighted"
+                            ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
+                            : "border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-900"
+                        }
+                      `}
+                    >
+                      <span className="font-semibold text-sm mb-0.5">Weighted</span>
+                      <span className="text-[10px] opacity-70 uppercase tracking-wider">Credit Based</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setYgpaCalcMethod("standard");
+                        setYgpaResult(null);
+                        setAvgYgpa(null);
+                        setError(null);
+                      }}
+                      className={`
+                        relative flex flex-col items-center justify-center p-3 rounded-lg border transition-all duration-200 cursor-pointer
+                        ${
+                          ygpaCalcMethod === "standard"
+                             ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
+                            : "border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-900"
+                        }
+                      `}
+                    >
+                      <span className="font-semibold text-sm mb-0.5">Standard</span>
+                      <span className="text-[10px] opacity-70 uppercase tracking-wider">Simple Average</span>
+                    </button>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="evenSgpa">Even Semester SGPA</Label>
-                  <Input
-                    id="evenSgpa"
-                    placeholder="8.0"
-                    className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500"
-                    type="number"
-                    step="0.01"
-                    value={evenSgpa}
-                    onChange={(e) => {
-                      if (isValidInput(e.target.value, 10)) {
-                        setEvenSgpa(e.target.value);
-                        if (error) setError(null);
-                      }
-                    }}
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="oddSgpa">Odd Semester SGPA</Label>
+                    <Input
+                      id="oddSgpa"
+                      placeholder="7.5"
+                      className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500"
+                      type="number"
+                      step="0.01"
+                      value={oddSgpa}
+                      onChange={(e) => {
+                        if (isValidInput(e.target.value, 10)) {
+                          setOddSgpa(e.target.value);
+                          if (error) setError(null);
+                        }
+                      }}
+                    />
+                  </div>
+                  {ygpaCalcMethod === "weighted" && (
+                    <div className="space-y-2 animate-in fade-in zoom-in-95 duration-200">
+                      <div className="flex justify-between">
+                        <Label htmlFor="oddCredits">Odd Semester Credits</Label>
+                        {oddSgpa && oddCredits && isValidInput(oddSgpa, 10) && !isNaN(parseFloat(oddCredits)) && (
+                          <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
+                            Credit Index: {(parseFloat(oddSgpa) * parseFloat(oddCredits)).toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                      <Input
+                        id="oddCredits"
+                        placeholder="21"
+                        className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500 transition-all focus:ring-1 focus:ring-emerald-500"
+                        type="number"
+                        step="0.5"
+                        value={oddCredits}
+                        onChange={(e) => {
+                           setOddCredits(e.target.value);
+                           if (error) setError(null);
+                        }}
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="evenSgpa">Even Semester SGPA</Label>
+                    <Input
+                      id="evenSgpa"
+                      placeholder="8.0"
+                      className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500 transition-all focus:ring-1 focus:ring-emerald-500"
+                      type="number"
+                      step="0.01"
+                      value={evenSgpa}
+                      onChange={(e) => {
+                        if (isValidInput(e.target.value, 10)) {
+                          setEvenSgpa(e.target.value);
+                          if (error) setError(null);
+                        }
+                      }}
+                    />
+                  </div>
+                   {ygpaCalcMethod === "weighted" && (
+                    <div className="space-y-2 animate-in fade-in zoom-in-95 duration-200">
+                      <div className="flex justify-between">
+                        <Label htmlFor="evenCredits">Even Semester Credits</Label>
+                        {evenSgpa && evenCredits && isValidInput(evenSgpa, 10) && !isNaN(parseFloat(evenCredits)) && (
+                          <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
+                            Credit Index: {(parseFloat(evenSgpa) * parseFloat(evenCredits)).toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                      <Input
+                        id="evenCredits"
+                        placeholder="22"
+                        className="bg-zinc-950 border-zinc-700 h-10 md:h-12 text-lg placeholder:text-zinc-500 transition-all focus:ring-1 focus:ring-emerald-500"
+                        type="number"
+                        step="0.5"
+                        value={evenCredits}
+                        onChange={(e) => {
+                           setEvenCredits(e.target.value);
+                           if (error) setError(null);
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Formula Hint */}
-              <div className="rounded-lg bg-zinc-950/50 border border-zinc-800 p-4 space-y-2">
-                <span className="font-semibold text-zinc-400 block text-sm">
+              <div className="rounded-lg bg-zinc-950/50 border border-zinc-800 p-4">
+                <span className="font-semibold text-zinc-400 block mb-3 text-sm">
                   Formulas used:
                 </span>
-                <div className="flex flex-col gap-1">
-                  <code className="text-zinc-500 text-sm">
-                    YGPA = (Odd SGPA + Even SGPA) / 2
-                  </code>
-                  <code className="text-zinc-500 text-sm">
-                    Percentage = (YGPA - 0.75) × 10
-                  </code>
+                <div className="flex flex-col gap-6">
+                  {ygpaCalcMethod === "standard" ? (
+                    <div className="flex items-center gap-2 text-zinc-500 text-sm overflow-x-auto">
+                      <span className="font-serif italic font-bold">YGPA</span>
+                      <span>=</span>
+                      <div className="flex flex-col items-center">
+                        <div className="border-b border-zinc-600 pb-1 px-1">
+                          Odd SGPA + Even SGPA
+                        </div>
+                        <div className="pt-1">2</div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 text-zinc-500 text-sm overflow-x-auto">
+                      <span className="font-serif italic font-bold">YGPA</span>
+                      <span>=</span>
+                      <div className="flex flex-col items-center">
+                        <div className="border-b border-zinc-600 pb-1 px-1 whitespace-nowrap">
+                          Credit Index Odd Sem + Credit Index Even Sem
+                        </div>
+                        <div className="pt-1 whitespace-nowrap">
+                          <span>&Sigma;</span> Credits Odd Sem + <span>&Sigma;</span> Credits Even Sem
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                    <span className="font-serif italic">Percentage</span>
+                    <span>=</span>
+                    <span>(YGPA - 0.75) &times; 10</span>
+                  </div>
                 </div>
               </div>
 
@@ -793,7 +968,7 @@ export default function CalculatorsPage() {
               </Button>
               <Button
                 onClick={handleCalculateYgpa}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition-all"
               >
                 Calculate
               </Button>
