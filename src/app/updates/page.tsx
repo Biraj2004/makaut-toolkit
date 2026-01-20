@@ -14,7 +14,7 @@ interface ApiResponse {
 async function getUpdates(): Promise<NoticeItem[]> {
   try {
     const res = await fetch("https://makaut1.ucanapply.com/smartexam/public/api/notice-data", {
-      next: { revalidate: 86400 }, // Cache for 24hrs --> 1 day (1 * 24 * 60 * 60)
+      next: { revalidate: 0 }, // No Cache (Live Updates)
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }

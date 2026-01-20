@@ -18,14 +18,14 @@ I use **Incremental Static Regeneration (ISR)** to fetch university notices from
 
 ### Revalidation (Cache Duration)
 
-- The updates page is statically cached and revalidated after a fixed interval.
+- The updates page is statically cached and revalidated instantly.
 
 - The revalidation configuration is defined in:
 
   `src/app/updates/page.tsx`
 
 - **Current Setting**  
-  `revalidate: 86400` (1 day = 24hrs)
+  `revalidate: 0` (instant updates)
 
 ---
 
