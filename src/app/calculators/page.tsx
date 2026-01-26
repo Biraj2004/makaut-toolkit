@@ -2,33 +2,13 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  calculatePercentageFromYgpa,
-  calculateDgpa,
-  DegreeType,
-  calculatePercentageFromSgpa,
-  calculateCgpa,
-  calculateWeightedYgpa,
-} from "@/lib/calculators";
+import { calculatePercentageFromYgpa, calculateDgpa, DegreeType, calculatePercentageFromSgpa, calculateCgpa, calculateWeightedYgpa } from "@/lib/calculators";
 import { CheckCircle2, RotateCcw, AlertTriangle } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type CgpaProgramType = "2yr" | "3yr" | "4yr" | "5yr";
 
@@ -40,9 +20,7 @@ export default function CalculatorsPage() {
   // YGPA State
   const [oddSgpa, setOddSgpa] = useState("");
   const [evenSgpa, setEvenSgpa] = useState("");
-  const [ygpaCalcMethod, setYgpaCalcMethod] = useState<"standard" | "weighted">(
-    "standard",
-  );
+  const [ygpaCalcMethod, setYgpaCalcMethod] = useState<"standard" | "weighted">("standard");
   const [oddCredits, setOddCredits] = useState("");
   const [evenCredits, setEvenCredits] = useState("");
   const [ygpaResult, setYgpaResult] = useState<number | null>(null);
@@ -234,8 +212,8 @@ export default function CalculatorsPage() {
       return;
     }
 
-    // Check Simplified: Just check if any filled row has parsing error?
-    // Or strictly check if we have any matching pairs?
+    // Check Simplified: Just check if any filled row has parsing error.
+    // Or strictly check if we have any matching pairs.
     // Let's filter for complete pairs.
     const validPairs = cgpaData.filter(
       (d) => d.sgpa !== "" && d.credits !== "",

@@ -1,15 +1,3 @@
-export type UpdateCategory = "General" | "Event" | "Exam" | "Scholarship";
-
-export interface UniversityUpdate {
-  id: string;
-  title: string;
-  description: string;
-  date: string; // ISO date string or formatted
-  category: UpdateCategory;
-  source: string;
-  link?: string;
-}
-
 export interface NavItem {
   title: string;
   href: string;
