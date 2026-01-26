@@ -9,7 +9,7 @@ This document explains how the **University Updates** section in my application 
 I use **Incremental Static Regeneration (ISR)** to fetch university notices from the official MAKAUT API.
 
 - **Data Source (MAKAUT API)**  
-  https://makaut1.ucanapply.com/smartexam/public/api/notice-data
+  <https://makaut1.ucanapply.com/smartexam/public/api/notice-data>
 
 - **Trigger**  
   Data is fetched whenever a user visits the `/updates` page.
@@ -37,6 +37,7 @@ I use **Incremental Static Regeneration (ISR)** to fetch university notices from
 4. The cache timer resets after revalidation.
 
 This approach ensures:
+
 - Fast page loads
 - Controlled API usage
 - Automatic updates without server overload

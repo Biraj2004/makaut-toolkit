@@ -3,6 +3,8 @@ export function calculatePercentageFromCgpa(cgpa: number): number {
 }
 
 export function calculatePercentageFromSgpa(sgpa: number): number {
+  // Standard MAKAUT Formula: (SGPA - 0.75) * 10
+  // Source: University Guidelines
   return (sgpa - 0.75) * 10;
 }
 
@@ -33,10 +35,11 @@ export function calculateWeightedYgpa(
 export type DegreeType = "4yr" | "lateral" | "3yr" | "2yr";
 
 export function calculateDgpa(ygpas: number[], type: DegreeType): number {
-  // 4 Year Degree: (YGPA1 + YGPA2 + 1.5*YGPA3 + 1.5*YGPA4) / 5
-  // Lateral Entry: (YGPA2 + 1.5*YGPA3 + 1.5*YGPA4) / 4
-  // 3 Year Degree: (YGPA1 + YGPA2 + YGPA3) / 3
-  // 2 Year Degree: (YGPA1 + YGPA2) / 2
+  // Formula Reference:
+  // 1. 4 Year Degree (B.Tech): Average of all 4 years. (1st & 2nd yr: 1x weight, 3rd & 4th yr: 1.5x weight)
+  // 2. Lateral Entry: Starts from 2nd year. (2nd yr: 1x, 3rd & 4th yr: 1.5x)
+  // 3. 3 Year Degree: Simple avg of 3 years.
+  // 4. 2 Year Degree: Simple avg of 2 years.
 
   // Note: ygpas array is expected to be 0-indexed.
   // ygpas[0] = YGPA1 (1st Year)

@@ -2,13 +2,33 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { calculatePercentageFromYgpa, calculateDgpa, DegreeType, calculatePercentageFromSgpa, calculateCgpa, calculateWeightedYgpa } from "@/lib/calculators";
+import {
+  calculatePercentageFromYgpa,
+  calculateDgpa,
+  DegreeType,
+  calculatePercentageFromSgpa,
+  calculateCgpa,
+  calculateWeightedYgpa,
+} from "@/lib/calculators";
 import { CheckCircle2, RotateCcw, AlertTriangle } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type CgpaProgramType = "2yr" | "3yr" | "4yr" | "5yr";
 
@@ -21,7 +41,7 @@ export default function CalculatorsPage() {
   const [oddSgpa, setOddSgpa] = useState("");
   const [evenSgpa, setEvenSgpa] = useState("");
   const [ygpaCalcMethod, setYgpaCalcMethod] = useState<"standard" | "weighted">(
-    "standard"
+    "standard",
   );
   const [oddCredits, setOddCredits] = useState("");
   const [evenCredits, setEvenCredits] = useState("");
@@ -46,7 +66,7 @@ export default function CalculatorsPage() {
   const [cgpaType, setCgpaType] = useState<CgpaProgramType>("4yr");
   // Max 10 semesters (5 years)
   const [cgpaData, setCgpaData] = useState<{ sgpa: string; credits: string }[]>(
-    Array(10).fill({ sgpa: "", credits: "" })
+    Array(10).fill({ sgpa: "", credits: "" }),
   );
   const [cgpaResult, setCgpaResult] = useState<number | null>(null);
 
@@ -93,7 +113,7 @@ export default function CalculatorsPage() {
 
     const o = parseFloat(oddSgpa);
     const e = parseFloat(evenSgpa);
-    
+
     // Check validation of SGPAs
     if (isNaN(o) || isNaN(e)) {
       setError("Invalid SGPA values.");
@@ -101,24 +121,24 @@ export default function CalculatorsPage() {
     }
 
     if (ygpaCalcMethod === "weighted") {
-       const oCred = parseFloat(oddCredits);
-       const eCred = parseFloat(evenCredits);
+      const oCred = parseFloat(oddCredits);
+      const eCred = parseFloat(evenCredits);
 
-       if (isNaN(oCred) || isNaN(eCred)) {
-         setError("Invalid Credit values.");
-         return;
-       }
+      if (isNaN(oCred) || isNaN(eCred)) {
+        setError("Invalid Credit values.");
+        return;
+      }
 
-       const weightedAvg = (o * oCred + e * eCred) / (oCred + eCred);
-       setAvgYgpa(weightedAvg);
-       setYgpaResult(calculateWeightedYgpa(o, oCred, e, eCred));
-       setError(null);
+      const weightedAvg = (o * oCred + e * eCred) / (oCred + eCred);
+      setAvgYgpa(weightedAvg);
+      setYgpaResult(calculateWeightedYgpa(o, oCred, e, eCred));
+      setError(null);
     } else {
-       // Standard
-       const avg = (o + e) / 2;
-       setAvgYgpa(avg);
-       setYgpaResult(calculatePercentageFromYgpa(o, e));
-       setError(null);
+      // Standard
+      const avg = (o + e) / 2;
+      setAvgYgpa(avg);
+      setYgpaResult(calculatePercentageFromYgpa(o, e));
+      setError(null);
     }
   };
 
@@ -184,8 +204,8 @@ export default function CalculatorsPage() {
       dgpaType === "2yr"
         ? 2
         : dgpaType === "lateral" || dgpaType === "3yr"
-        ? 3
-        : 4;
+          ? 3
+          : 4;
     const activeInputs = yearlyGPAs.slice(0, requiredInputs);
 
     if (activeInputs.some((val) => val.trim() === "")) {
@@ -218,7 +238,7 @@ export default function CalculatorsPage() {
     // Or strictly check if we have any matching pairs?
     // Let's filter for complete pairs.
     const validPairs = cgpaData.filter(
-      (d) => d.sgpa !== "" && d.credits !== ""
+      (d) => d.sgpa !== "" && d.credits !== "",
     );
 
     if (validPairs.length === 0) {
@@ -271,7 +291,7 @@ export default function CalculatorsPage() {
   const handleCgpaInputChange = (
     index: number,
     field: "sgpa" | "credits",
-    value: string
+    value: string,
   ) => {
     // Determine max value based on field
     // sgpa: max 10
@@ -682,17 +702,21 @@ export default function CalculatorsPage() {
               <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3 flex gap-3 items-start text-sm text-amber-500/90 mt-6">
                 <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                 <div className="space-y-2">
-                  <span className="font-bold block">
-                    Important Note:
-                  </span>
+                  <span className="font-bold block">Important Note:</span>
                   <p>
-                    This <span className="font-bold">Overall Percentage (%)</span> is an approximate conversion calculated using SGPA and number of subjects.
+                    This{" "}
+                    <span className="font-bold">Overall Percentage (%)</span> is
+                    an approximate conversion calculated using SGPA and number
+                    of subjects.
                   </p>
                   <p className="pt-1">
-                    This percentage will not exactly match credit-based university (%) calculations.
+                    This percentage will not exactly match credit-based
+                    university (%) calculations.
                   </p>
                   <p className="pt-1">
-                    For officially accurate results, use the Credit-Based SGPA & YGPA Percentage Calculators available in this <span className="font-bold">Toolkit</span>.
+                    For officially accurate results, use the Credit-Based SGPA &
+                    YGPA Percentage Calculators available in this{" "}
+                    <span className="font-bold">Toolkit</span>.
                   </p>
                 </div>
               </div>
@@ -763,9 +787,10 @@ export default function CalculatorsPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
-
-               <div className="space-y-3">
-                  <Label className="text-zinc-400 text-sm">Calculation Method</Label>
+                <div className="space-y-3">
+                  <Label className="text-zinc-400 text-sm">
+                    Calculation Method
+                  </Label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => {
@@ -774,7 +799,7 @@ export default function CalculatorsPage() {
                         setAvgYgpa(null);
                         setError(null);
                       }}
-                       className={`
+                      className={`
                         relative flex flex-col items-center justify-center p-3 rounded-lg border transition-all duration-200 cursor-pointer
                         ${
                           ygpaCalcMethod === "weighted"
@@ -783,8 +808,12 @@ export default function CalculatorsPage() {
                         }
                       `}
                     >
-                      <span className="font-semibold text-sm mb-0.5">Weighted</span>
-                      <span className="text-[10px] opacity-70 uppercase tracking-wider">Credit Based</span>
+                      <span className="font-semibold text-sm mb-0.5">
+                        Weighted
+                      </span>
+                      <span className="text-[10px] opacity-70 uppercase tracking-wider">
+                        Credit Based
+                      </span>
                     </button>
 
                     <button
@@ -798,13 +827,17 @@ export default function CalculatorsPage() {
                         relative flex flex-col items-center justify-center p-3 rounded-lg border transition-all duration-200 cursor-pointer
                         ${
                           ygpaCalcMethod === "standard"
-                             ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
+                            ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400"
                             : "border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-900"
                         }
                       `}
                     >
-                      <span className="font-semibold text-sm mb-0.5">Standard</span>
-                      <span className="text-[10px] opacity-70 uppercase tracking-wider">Simple Average</span>
+                      <span className="font-semibold text-sm mb-0.5">
+                        Standard
+                      </span>
+                      <span className="text-[10px] opacity-70 uppercase tracking-wider">
+                        Simple Average
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -831,11 +864,17 @@ export default function CalculatorsPage() {
                     <div className="space-y-2 animate-in fade-in zoom-in-95 duration-200">
                       <div className="flex justify-between">
                         <Label htmlFor="oddCredits">Odd Semester Credits</Label>
-                        {oddSgpa && oddCredits && isValidInput(oddSgpa, 10) && !isNaN(parseFloat(oddCredits)) && (
-                          <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
-                            Credit Index: {(parseFloat(oddSgpa) * parseFloat(oddCredits)).toFixed(2)}
-                          </span>
-                        )}
+                        {oddSgpa &&
+                          oddCredits &&
+                          isValidInput(oddSgpa, 10) &&
+                          !isNaN(parseFloat(oddCredits)) && (
+                            <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
+                              Credit Index:{" "}
+                              {(
+                                parseFloat(oddSgpa) * parseFloat(oddCredits)
+                              ).toFixed(2)}
+                            </span>
+                          )}
                       </div>
                       <Input
                         id="oddCredits"
@@ -845,13 +884,13 @@ export default function CalculatorsPage() {
                         step="0.5"
                         value={oddCredits}
                         onChange={(e) => {
-                           setOddCredits(e.target.value);
-                           if (error) setError(null);
+                          setOddCredits(e.target.value);
+                          if (error) setError(null);
                         }}
                       />
                     </div>
                   )}
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="evenSgpa">Even Semester SGPA</Label>
                     <Input
@@ -869,15 +908,23 @@ export default function CalculatorsPage() {
                       }}
                     />
                   </div>
-                   {ygpaCalcMethod === "weighted" && (
+                  {ygpaCalcMethod === "weighted" && (
                     <div className="space-y-2 animate-in fade-in zoom-in-95 duration-200">
                       <div className="flex justify-between">
-                        <Label htmlFor="evenCredits">Even Semester Credits</Label>
-                        {evenSgpa && evenCredits && isValidInput(evenSgpa, 10) && !isNaN(parseFloat(evenCredits)) && (
-                          <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
-                            Credit Index: {(parseFloat(evenSgpa) * parseFloat(evenCredits)).toFixed(2)}
-                          </span>
-                        )}
+                        <Label htmlFor="evenCredits">
+                          Even Semester Credits
+                        </Label>
+                        {evenSgpa &&
+                          evenCredits &&
+                          isValidInput(evenSgpa, 10) &&
+                          !isNaN(parseFloat(evenCredits)) && (
+                            <span className="text-xs text-emerald-500 font-medium animate-in fade-in">
+                              Credit Index:{" "}
+                              {(
+                                parseFloat(evenSgpa) * parseFloat(evenCredits)
+                              ).toFixed(2)}
+                            </span>
+                          )}
                       </div>
                       <Input
                         id="evenCredits"
@@ -887,8 +934,8 @@ export default function CalculatorsPage() {
                         step="0.5"
                         value={evenCredits}
                         onChange={(e) => {
-                           setEvenCredits(e.target.value);
-                           if (error) setError(null);
+                          setEvenCredits(e.target.value);
+                          if (error) setError(null);
                         }}
                       />
                     </div>
@@ -922,12 +969,13 @@ export default function CalculatorsPage() {
                           Credit Index Odd Sem + Credit Index Even Sem
                         </div>
                         <div className="pt-1 whitespace-nowrap">
-                          <span>&Sigma;</span> Credits Odd Sem + <span>&Sigma;</span> Credits Even Sem
+                          <span>&Sigma;</span> Credits Odd Sem +{" "}
+                          <span>&Sigma;</span> Credits Even Sem
                         </div>
                       </div>
                     </div>
                   )}
-                  
+
                   <div className="flex items-center gap-2 text-zinc-500 text-sm">
                     <span className="font-serif italic">Percentage</span>
                     <span>=</span>
@@ -989,6 +1037,13 @@ export default function CalculatorsPage() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Course Type</Label>
+                  <p className="text-[0.8rem] text-zinc-400">
+                    Default is{" "}
+                    <span className="text-emerald-500 font-medium">
+                      4 Year Degree
+                    </span>
+                    . Change this if you are a Lateral Entry/BCA/MCA/MBA student.
+                  </p>
                   <Select
                     value={dgpaType}
                     onValueChange={(val) =>
@@ -1003,10 +1058,10 @@ export default function CalculatorsPage() {
                         4 Year Degree (B.Tech)
                       </SelectItem>
                       <SelectItem className="cursor-pointer" value="lateral">
-                        Lateral Entry (3 Years)
+                        Lateral Entry (3 Years - B.Tech)
                       </SelectItem>
                       <SelectItem className="cursor-pointer" value="3yr">
-                        3 Year Degree
+                        3 Year Degree (BBA/BCA)
                       </SelectItem>
                       <SelectItem className="cursor-pointer" value="2yr">
                         2 Year Degree (M.Tech/MCA/MBA)
@@ -1109,6 +1164,9 @@ export default function CalculatorsPage() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Course Duration</Label>
+                  <p className="text-[0.8rem] text-zinc-400">
+                    Default is <span className="text-emerald-500 font-medium">4 Year (8 Semesters)</span>. Change this based on your total semesters.
+                  </p>
                   <Select
                     value={cgpaType}
                     onValueChange={(val) =>

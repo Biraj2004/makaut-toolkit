@@ -21,10 +21,19 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       if (mainRef.current) {
         mainRef.current.scrollTop = 0;
       }
-    }, 0);
+    }, 0);  // Immediately
     
     return () => clearTimeout(timeoutId);
   }, [pathname]);
+
+  // Developer Signature
+  useEffect(() => {
+    console.log(
+      "%c Developed by Biraj ",
+      "background: #10b981; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;"
+    );
+    console.log("Built for the MAKAUT Community.");
+  }, []);
 
   return (
     <div className="flex h-screen w-full bg-zinc-950 text-zinc-100 overflow-hidden font-sans antialiased">
